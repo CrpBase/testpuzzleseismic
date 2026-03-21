@@ -889,12 +889,21 @@ function generateShare(){
     /* subtle noise-like overlay */
     ctx.fillStyle="rgba(255,255,255,0.03)";
     for(let i=0;i<400;i++){const x=Math.random()*W,y=Math.random()*H,s=Math.random()*2+1;ctx.fillRect(x,y,s,s);}
-    const rightW=280,imgBox={x:pad,y:pad,w:W-rightW-3*pad,h:H-2*pad};
-    function rrp(x,y,w,h,r=12){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
-    rrp(imgBox.x,imgBox.y,imgBox.w,imgBox.h,12);ctx.save();ctx.clip();
-    if(img&&img.complete){const iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height,scale=Math.min(imgBox.w/iw,imgBox.h/ih),dw=Math.ceil(iw*scale),dh=Math.ceil(ih*scale);ctx.drawImage(img,Math.floor(imgBox.x+(imgBox.w-dw)/2),Math.floor(imgBox.y+(imgBox.h-dh)/2),dw,dh);}
-    ctx.restore();ctx.strokeStyle="rgba(255,255,255,0.15)";ctx.lineWidth=1;rrp(imgBox.x,imgBox.y,imgBox.w,imgBox.h,12);ctx.stroke();
-    const rX=W-pad-rightW+8,name=getName()||"anonymous";
+    /* Square image box — height fills card, width = height */
+    const rightW=280,imgSize=H-2*pad,imgBox={x:pad,y:pad,w:imgSize,h:imgSize};
+    function rrp(x,y,w,h,r=20){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
+    rrp(imgBox.x,imgBox.y,imgBox.w,imgBox.h,20);ctx.save();ctx.clip();
+    if(img&&img.complete){
+      const iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height;
+      /* cover: scale so image fills the square completely */
+      const scale=Math.max(imgBox.w/iw,imgBox.h/ih);
+      const dw=Math.ceil(iw*scale),dh=Math.ceil(ih*scale);
+      ctx.drawImage(img,Math.floor(imgBox.x+(imgBox.w-dw)/2),Math.floor(imgBox.y+(imgBox.h-dh)/2),dw,dh);
+    }
+    ctx.restore();
+    /* rounded outline stroke */
+    ctx.strokeStyle="rgba(255,255,255,0.25)";ctx.lineWidth=2;rrp(imgBox.x,imgBox.y,imgBox.w,imgBox.h,20);ctx.stroke();
+    const rX=pad+imgSize+pad+8,name=getName()||"anonymous";
     ctx.font="300 11px Inter,Arial";ctx.fillStyle="rgba(255,255,255,0.5)";ctx.fillText("SEISMIC PUZZLE",rX,pad+18);
     ctx.font="600 20px Inter,Arial";ctx.fillStyle="rgba(255,255,255,0.92)";ctx.fillText("Puzzle solved",rX,pad+44);
     ctx.fillStyle="rgba(255,255,255,0.15)";ctx.fillRect(rX,pad+54,rightW-16,1);
