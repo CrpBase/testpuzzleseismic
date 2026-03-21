@@ -909,7 +909,7 @@ function generateShare(){
   }catch(e){console.warn("share err",e);}
 }
 document.getElementById("downloadShareBtn").addEventListener("click",()=>{const sc=document.getElementById("shareCanvas"),a=document.createElement("a");a.href=sc.toDataURL("image/png");a.download="seismic-puzzle.png";a.click();});
-document.getElementById("shareXBtn").addEventListener("click",()=>{const t=document.getElementById("time").textContent.trim();const txt=["Seismic Puzzle for @SeismicSys","",`Solved in ${t} with ${moves} moves.`,"","by @crpbase | art by @dosunets_","","Try to beat my time → https://crpbase.github.io/Seismic_Puzzle/","","#SeismicPuzzleChallenge"].join("\n");window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(txt),"_blank");});
+document.getElementById("shareXBtn").addEventListener("click",()=>{const t=document.getElementById("time").textContent.trim();const txt=["Seismic Puzzle for @SeismicSys","",`Solved in ${t} with ${moves} moves.`,"","by @crpbase | art by @dosunets_","","Try to beat my time → https://crpbase.github.io/Seismic_Puzzle/","","#SeismicPuzzleChallenge4"].join("\n");window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(txt),"_blank");});
 
 const statusObs=new MutationObserver(()=>{const t=statusEl.textContent.trim().toLowerCase();if(t.includes("solved")&&document.getElementById("winOverlay").style.display!=="flex"){if(window.__playVictory)window.__playVictory();confettiBurst();generateShare();}});
 statusObs.observe(statusEl,{characterData:true,subtree:true,childList:true});
