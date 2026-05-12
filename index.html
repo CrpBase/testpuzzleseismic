@@ -768,7 +768,7 @@ async function loadLeaderboard(){
   }catch(e){list.textContent="Failed to load.";}
 }
 
-const ROWS=9,COLS=9,IMAGE_URL="pazzle.png",DOBBY_URL="logos.png";
+const ROWS=9,COLS=9,IMAGE_URL="pazzle.png",LOGOS_URL="logos.png";
 const CANVAS=document.getElementById("canvas"),CTX=CANVAS.getContext("2d");
 const timeEl=document.getElementById("time"),movesEl=document.getElementById("moves"),statusEl=document.getElementById("status");
 const shuffleBtn=document.getElementById("shuffleBtn"),resetBtn=document.getElementById("resetBtn");
@@ -812,7 +812,7 @@ const img=new Image();img.src=IMAGE_URL;
 img.onload=()=>{hasImage=true;startBtn.disabled=false;resizeCanvas();try{buildPieces();}catch(_){}shuffleBtn.disabled=false;};
 img.onerror=()=>{hasImage=false;startBtn.disabled=true;};
 const dobby=new Image();let dobbyLoaded=false;
-dobby.src=DOBBY_URL;dobby.onload=()=>{dobbyLoaded=true;if(inMenu)initMenuBG();};
+dobby.src=LOGOS_URL;dobby.onload=()=>{dobbyLoaded=true;if(inMenu)initMenuBG();};
 
 /* ─── CANVAS RESIZE ─── */
 function resizeCanvas(){
